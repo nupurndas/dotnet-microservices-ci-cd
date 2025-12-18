@@ -23,10 +23,10 @@ jobs:
         run: dotnet restore UserService/UserService.csproj
 
       - name: Restore dependencies Product Service
-        run: dotnet restore ProductService/ProductService.csproj
+        run: dotnet restore UserService/UserService.csproj
 
       - name: Build
         run: dotnet build --no-restore UserService/UserService.csproj
 
       - name: Build Product Service
-        run: dotnet build --no-restore ProductService/ProductService.csproj
+        run: dotnet build --no-restore UserService/UserService.csproj
