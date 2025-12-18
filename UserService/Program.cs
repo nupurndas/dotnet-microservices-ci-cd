@@ -5,6 +5,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:3000", "https://your-react-app.com")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -16,10 +27,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseCors("AllowReactApp");
 
 app.MapGet("/users", () =>
 {
@@ -32,7 +40,7 @@ app.MapGet("/users", () =>
     //     ))
     //     .ToArray();
     // return forecast;
-    return new[] { new { Id = 1, Name = "Alice" } , new { Id = 2, Name = "Bob" } };
+    return new[] { new { Id = 1, Name = "Alice" }, new { Id = 2, Name = "Bob" } };
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();

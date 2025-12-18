@@ -2,28 +2,31 @@ name: .NET CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3 
-      with:
-        dotnet-version: 8.0.x
-    
-    - name: Restore dependencies
-      run: dotnet restore UserService/UserService.csproj
-           dotnet restore ProductService/ProductService.csproj
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
 
-    - name: Build
-      run: dotnet build --no-restore UserService/UserService.csproj
-           dotnet build --no-restore ProductService/ProductService.csproj
-    
+      - name: Restore dependencies User Service
+        run: dotnet restore UserService/UserService.csproj
+
+      - name: Restore dependencies Product Service
+          dotnet restore ProductService/ProductService.csproj
+
+      - name: Build
+        run: dotnet build --no-restore UserService/UserService.csproj
+
+      - name: Build Product Service
+        run: dotnet build --no-restore ProductService/ProductService.csproj
